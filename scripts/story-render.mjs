@@ -4,7 +4,7 @@
 // this parses SGR sequences into styled spans, kobe-quicklook style, and
 // renders faithful-color artifacts as many times as you like:
 //
-//   node scripts/story-render.mjs <story-name> [--speed 1.5] [--max-frame-s 2]
+//   node .agents/skills/skill-story/scripts/story-render.mjs <story-name> [--speed 1.5] [--max-frame-s 2]
 //
 // Outputs into harness/stories/<story-name>/:
 //   replay.html — self-contained animated replay with true colors
@@ -67,10 +67,29 @@ function parseAnsiLine(raw) {
     text = '';
   };
   let i = 0;
+  const CSI_RE = /^\x1b\[[0-?]*[ -\/]*[@-~]/;
   while (i < raw.length) {
-    if (raw[i] === '\x1b' && raw[i + 1] === '[') {
-      const end = raw.indexOf('m', i + 2);
-      if (end === -1) break;
+    if (raw[i] === '\x1b') {
+      const rest = raw.slice(i);
+      const nextCh = raw[i + 1];
+      if (nextCh === ']') {
+        // OSC: consume to BEL or ST
+        const bel = raw.indexOf('\x07', i + 2);
+        const st = raw.indexOf('\x1b\\', i + 2);
+        const end = bel === -1 ? st : (st === -1 ? bel : Math.min(bel, st));
+        i = end === -1 ? raw.length : end + (end === st ? 2 : 1);
+        continue;
+      }
+      const csi = CSI_RE.exec(rest);
+      if (!csi) {
+        i += 2; // two-char escape (charset select etc.)
+        continue;
+      }
+      if (!csi[0].endsWith('m')) {
+        i += csi[0].length; // non-SGR CSI (cursor/erase) — consume, ignore
+        continue;
+      }
+      const end = i + csi[0].length - 1;
       const codes = raw.slice(i + 2, end).split(';').map(v => (v === '' ? 0 : Number(v)));
       flush();
       for (let c = 0; c < codes.length; c += 1) {
@@ -104,6 +123,8 @@ function parseAnsiLine(raw) {
     }
   }
   flush();
+  // control chars must never reach SVG/HTML (XML rejects them — 'PCDATA invalid Char value 27')
+  for (const span of spans) span.text = span.text.replace(/[\x00-\x08\x0B-\x1F\x7F]/g, '');
   // clip to cols AFTER parsing (never cut an escape sequence)
   let used = 0;
   const clipped = [];

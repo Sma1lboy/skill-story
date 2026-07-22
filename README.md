@@ -16,10 +16,12 @@ dive in → expected script → sandboxed REAL session → drive & capture →
 verify outcome → findings → sediment into the target skill → re-record
 ```
 
-[![demo: a real /setup session, captured and re-rendered](docs/skill-story-demo.png)](docs/skill-story-demo.mp4)
-
-*A real onboarding session (AskUserQuestion batches, PDF import, consents),
-recorded and re-rendered with true colors. Click through for the video.*
+<p align="center">
+  <a href="docs/skill-story-demo.mp4">
+    <img src="docs/skill-story-demo.gif" alt="A real onboarding session — AskUserQuestion batches, PDF import, consents — captured and re-rendered with true colors" width="880">
+  </a>
+  <br><em>A real onboarding session end to end (7× speed) — <a href="docs/skill-story-demo.mp4">full-quality video</a>.</em>
+</p>
 
 ## How it works
 

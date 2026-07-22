@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.svg" alt="skill-story — script, record, verify, render: interaction flows, tested like code" width="100%">
+</p>
+
 # skill-story
 
 **Interaction flows are product surface. Test them like code.**

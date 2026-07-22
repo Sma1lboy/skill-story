@@ -17,10 +17,8 @@ verify outcome → findings → sediment into the target skill → re-record
 ```
 
 <p align="center">
-  <a href="docs/skill-story-demo.mp4">
-    <img src="docs/skill-story-demo.gif" alt="A real onboarding session — AskUserQuestion batches, PDF import, consents — captured and re-rendered with true colors" width="880">
-  </a>
-  <br><em>A real onboarding session end to end (7× speed) — <a href="docs/skill-story-demo.mp4">full-quality video</a>.</em>
+  <img src="docs/skill-story-demo.gif" alt="A real onboarding session — AskUserQuestion batches, PDF import, consents — captured and re-rendered with true colors" width="880">
+  <br><em>A real onboarding session end to end (7× speed).</em>
 </p>
 
 ## How it works
